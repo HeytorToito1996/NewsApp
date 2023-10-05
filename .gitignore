@@ -3,3 +3,6 @@
 
 #Directories
 node_modules/
+
+#environment
+.env
