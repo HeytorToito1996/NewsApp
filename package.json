@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": "Heytor Toito de Carvalho",
   "license": "ISC",
@@ -14,8 +14,12 @@
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "chai": "^4.3.10",
+    "chai-http": "^4.4.0",
     "dotenv": "^16.3.1",
+    "express-session": "^1.17.3",
     "jsonwebtoken": "^9.0.2",
+    "mocha": "^10.2.0",
     "mongoose": "^7.5.4"
   }
 }

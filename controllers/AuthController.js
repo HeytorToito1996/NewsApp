@@ -1,6 +1,6 @@
 const User = require('../models/User');
 
-async function userSignIn(userData,res) {
+async function userSignIn(req,userData,res) {
     try {
         const userExists = await User.findOne({email:userData.email});
         
@@ -14,8 +14,11 @@ async function userSignIn(userData,res) {
     
         else {
             const token = userExists.generateWebToken();
-            console.log("Login realizado com sucesso, seu token de sessão é : " + token);
-            return res.status(200).json({token});
+            const authenticatedUser = {id:userExists._id, email:userExists.email,name:userExists.name, role:userExists.role};
+            req.session.authenticatedUser = authenticatedUser;
+            const userSession = req.session.authenticatedUser; 
+            return res.status(200).json({token,userSession});
+
         }
     } 
     catch(error) {

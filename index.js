@@ -11,20 +11,33 @@ const NewsRoutes = require('./routes/News');
 //setting JSON configuration
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+//setting public files
+app.use(express.static(__dirname + '/public'));
+//Configuring Session
+app.use(require('express-session')({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true
+}));
+
+app.set("view cache", false);
+//setting routes
 //configure routes
 app.use('/News', NewsRoutes);
 app.use('/Auth', Auth);
 app.use('/Users', UserRoutes);
 //DB Connection
-mongoose.connect('mongodb://localhost:27017/NewsApp', { useNewUrlParser: true, useUnifiedTopology: true }).then((result)=>{
+mongoose.connect(process.env.STRING_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true }).then((result)=>{
   console.log('DB Connected');
-
   app.listen(3000, () => {
-    console.log('App listening on port 3000');
+    console.log('App listening');
   });
 }).catch((error)=>{
   console.log(error);
 });
+
+module.exports = app;
+
 
 
 

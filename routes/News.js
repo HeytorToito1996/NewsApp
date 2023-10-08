@@ -1,32 +1,38 @@
+const authMiddleware = require('../middleware/authMiddleware');
 const express = require('express');
 const router = express.Router();
 
-router.get('/', (req, res) => {
+//Get Routes
+router.get('/',(req, res) => {
   res.send('Notícias');
 });
 
-router.get('/:id', (req, res) => {
+router.get('/publish',authMiddleware.requireAdmin,(req, res) =>{
+  res.send('Publicar Notícia');
+});
+
+router.get('/:id',authMiddleware.requireAuth,(req, res) => {
   res.send('Visualizar Notícia');
 });
 
-router.get('/create', (req, res) => {
-  res.send('Criar Notícia');
+
+router.get('/update/:id',authMiddleware.requireAdmin,(req, res) => {
+  res.send('Atualizar Notícia');
 });
 
-router.post('/create', (req,res) => {
+router.get('/destroy/:id', authMiddleware.requireAdmin,(req, res) => {
+  res.send('Deletar Notícia');
+});
+
+//Post Routes
+router.post('/create',(req,res) => {
   res.send('Notícia publicada'); 
 });
-
-router.get('/update/:id', (req, res) => {
-  res.send('Atualizar Notícia');
-})
 
 router.post('/update/', (req, res) => {
   res.send('Atualizar')
 });
 
-router.get('/destroy/:id', (req, res) => {
-  res.send('Deletar Notícia');
-});
+
 
 module.exports = router;
