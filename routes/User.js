@@ -1,4 +1,5 @@
 const express = require('express');
+const authMiddleware = require('../middleware/authMiddleware');
 const router = express.Router();
 const userController = require('../controllers/UserController');
 
@@ -23,15 +24,15 @@ router.post('/create', async (req, res) => {
       res.status(500).send({message:'Ocorreu um problema ao cadastrar este usuário'});
     }
 });
-
-router.get('/update/:id', (req, res) => {
+//protected routes
+router.get('/update/:id', authMiddleware.requireAuth,(req, res) => {
     res.send('Atualizar');
 });
 
-router.post('/update', (req, res) => {
+router.post('/update', authMiddleware.requireAuth,(req, res) => {
     res.send('Atualizado');
 });
-router.get('/destroy/:id', (req, res) => {
+router.get('/destroy/:id', authMiddleware.requireAuth,(req, res) => {
   res.send('Deletar');  
 });
 

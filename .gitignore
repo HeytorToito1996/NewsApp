@@ -3,6 +3,6 @@
 
 #Directories
 node_modules/
-test/
+
 #environment
 .env
