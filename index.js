@@ -6,7 +6,7 @@ const app = express();
 const mongoose = require('mongoose');
 const Auth = require('./routes/Auth');
 const UserRoutes = require('./routes/User');
-const NewsRoutes = require('./routes/News');
+const PostRoutes = require('./routes/Posts');
 
 //setting JSON configuration
 app.use(express.json());
@@ -23,7 +23,7 @@ app.use(require('express-session')({
 app.set("view cache", false);
 //setting routes
 //configure routes
-app.use('/News', NewsRoutes);
+app.use('/Posts', PostRoutes);
 app.use('/Auth', Auth);
 app.use('/Users', UserRoutes);
 //DB Connection

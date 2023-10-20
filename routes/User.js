@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/create', (req, res) => {
-  res.send('Criar Usuário');
+  res.send('Cadastrar Usuário');
 });
 
 router.post('/create', async (req, res) => {
@@ -25,8 +25,9 @@ router.post('/create', async (req, res) => {
     }
 });
 //protected routes
-router.get('/update/:id', authMiddleware.requireAuth,(req, res) => {
-    res.send('Atualizar');
+router.get('/update/:id', authMiddleware.requireAuth, async(req, res) => {
+    let userID = req.params.id;
+    await userController.getUser(req, res, userID);
 });
 
 router.post('/update', authMiddleware.requireAuth,(req, res) => {

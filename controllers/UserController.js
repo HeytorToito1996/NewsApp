@@ -19,4 +19,22 @@ const createUser = async function(userData,res){
     }
 }
 
-module.exports = {createUser};
+const getUser = async function (req, res,userID) {
+    let userData = await User.findById(userID);
+    return response.status(201).send(userData);
+}
+
+const updateUser = async function (req, res,userID) {
+    let user = await User.findById(userID);
+    if (!user) {
+        return res.status(404).send({message:'Usuário não encontrado'});
+    }
+    user.name = req.body.name;
+    user.email = req.body.email;
+    user.password = req.body.password;
+    user.role = req.body.role;
+    await user.save();
+    return res.status(200).send({message:'Usuário atualizado com sucesso', user});
+}
+
+module.exports = {createUser,updateUser,getUser};
