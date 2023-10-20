@@ -8,14 +8,17 @@ const Post = new Schema ({
         unique: true
     },
 
-    content:{
+    text:{
         type: String,
-        required: true,
+        required: true
+    },
+
+    picture:{
+        type: String,
     },
 
     author:{
         type: String,
-        required: true,
     },
 
     postedAt:{

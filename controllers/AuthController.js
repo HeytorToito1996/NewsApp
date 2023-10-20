@@ -16,6 +16,7 @@ async function userSignIn(req,userData,res) {
             const token = userExists.generateWebToken();
             const authenticatedUser = {id:userExists._id, email:userExists.email,name:userExists.name, role:userExists.role};
             req.session.authenticatedUser = authenticatedUser;
+            req.session.name = authenticatedUser.name;
             const userSession = req.session.authenticatedUser; 
             return res.status(200).json({token,userSession});
 
