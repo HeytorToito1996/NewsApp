@@ -22,7 +22,7 @@ const Post = new Schema ({
     },
 
     postedAt:{
-        type :Date,
+        type :String,
     }
 });
 

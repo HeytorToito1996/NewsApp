@@ -27,8 +27,14 @@ router.get('/update/:id',authMiddleware.requireAdmin,(req, res) => {
   res.send('Atualizar Postagem');
 });
 
-router.get('/destroy/:id', authMiddleware.requireAdmin,(req, res) => {
-  res.send('Deletar Postagem');
+router.get('/destroy/:id', authMiddleware.requireAdmin,async (req, res) => {
+    try {
+      const postId = req.params.id;
+      const deletedPost = await postController.deletePost(postId,res);
+    } catch (error) {
+        console.error('Ocorreu um problema ao Excluir este registro do Banco de dados',error);
+        response.status(500).send('Falha ao Excluir esta Postagem');
+    }
 });
 
 //Post Routes
@@ -43,7 +49,7 @@ router.post('/create',upload.single("file"),async(req,res) => {
         text:req.body.text,
         picture:req.file.filename,
         author:req.session.name,
-        postedAt:Date.now("dmy")
+        postedAt:new Date().toLocaleString()
     }
     await postController.createPost(req,postContent,res); 
   } catch (error) {
@@ -54,8 +60,24 @@ router.post('/create',upload.single("file"),async(req,res) => {
   console.log('Postagem publicada com sucesso');
 });
 
-router.post('/update/', (req, res) => {
-  res.send('Atualizar')
+router.post('/update/:id',upload.single("file") ,async (req, res) => {
+   try {
+      if (!req.file){
+        return res.status(404).send({message:'Nenhuma Imagem enviada'});
+      }
+      const postContent = {
+         postId: req.params.id,
+         title: req.body.title,
+         text: req.body.text,
+         picture: req.file.filename,
+         author: req.session.name,
+         postedAt: "Atualizado em : " + new Date().toLocaleString()
+      }
+      await postController.updatePost(req, postContent,res);
+   } catch (error) {
+      console.error('Ocorreu um problema ao atualizar esta postagem : ',error); 
+      res.status(500).send({message:'Ocorreu um problema ao atualizar esta postagem'})
+   }
 });
 
 

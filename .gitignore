@@ -3,6 +3,6 @@
 
 #Directories
 node_modules/
-
+uploads/
 #environment
 .env
